@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="d259b487-55d7-41e0-9df5-9b11c7f6b6d0" name="seeda" url="http://51.68.215.10">
+        <fileTransfer rootFolder="/bt-dev-ride.magdsofteg.xyz/" host="51.68.215.10" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

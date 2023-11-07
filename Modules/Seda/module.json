@@ -1,0 +1,11 @@
+{
+    "name": "Seda",
+    "alias": "seda",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Seda\\Providers\\SedaServiceProvider"
+    ],
+    "files": []
+}
