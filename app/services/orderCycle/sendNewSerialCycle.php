@@ -12,7 +12,7 @@ use App\services\Map\MapService;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
-class sendSerialCycle
+class sendNewSerialCycle
 {
     public static function SentToDriver( $order,$ride_type_id)
     {
@@ -64,9 +64,12 @@ class sendSerialCycle
         }
         model::insert($data);
 
-        AutoNextDriverJob::dispatch(new OrderResource($order),"AutoNextDriverJob-{$order->id}-order_id")->delay(now()->addSeconds(15));
-
-        new generalEvent(new OrderResource($order),[$nearestDrivers[0]],'newOrder',__("api.you have new order"));
+        AutoNextDriverJob::dispatch(new OrderResource($order),"AutoNextDriverJob-{$order->id}-order_id")->delay(now()->addSeconds(5));
+        $count = count($nearestDrivers);
+        $max = min($count, 3);
+        for ($x = 0; $x <= ($max-1); $x++) {
+            new generalEvent(new OrderResource($order), [$nearestDrivers[$x]], 'newOrder', __("api.you have new order"));
+        }
         return true;
     }
 

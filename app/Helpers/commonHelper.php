@@ -8,7 +8,7 @@ use App\services\mediaServices;
 use Illuminate\Support\Facades\Auth;
 	use App\Models\Language;
 	use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
+
 
 	function createDB($model,array $data)
 	{
@@ -172,23 +172,3 @@ use Illuminate\Support\Facades\Storage;
 
         return $key;
 	}
-
-    function storage_test($string, $array = []){
-        // Define the file path
-        $filePath = storage_path('info.json');
-
-// Your data to be stored
-//        $data = [
-//            'key1' => 'value1',
-//            'key2' => 'value2',
-//        ];
-        $data = [
-            'key1' => $string,
-        ];
-
-// Convert the data to JSON format
-        $jsonData = json_encode($data);
-
-// Store the JSON data in the file
-        Storage::put('data.json', $jsonData);
-    }

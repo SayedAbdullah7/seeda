@@ -15,3 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get("liveTracking",[\App\Http\Controllers\getLiveTrackigController::class,'index']);
+Route::get('/clear-cache', function () {
+    return \Artisan::call('optimize:clear');
+});

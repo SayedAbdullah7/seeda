@@ -40,15 +40,11 @@ class AutoNextDriverJob implements ShouldQueue
     public function handle()
     {
         Log::error("handel");
-//        Log::info('AutoNextDriverJob function');
-        \Illuminate\Support\Facades\Storage::put('AutoNextDriverJob.json', json_encode([''=>'AutoNextDriverJob']));
 
-        $drivers = OrderSentToDriver::where(["order_id"=>$this->order->id,"status"=>orderStatus::waiting])->get();
-        if ($drivers){
-            foreach ($drivers as $driver){
-                new generalEventWithAppKey($this->order,$this->order->appKey,[$driver->user_id],'AutoCancelDriver',__("api.order has been cancelled automatic "));
-            }
-            $drivers->update(["status"=>orderStatus::cancel]);
+        $driver = OrderSentToDriver::where(["order_id"=>$this->order->id,"status"=>orderStatus::waiting])->first();
+        if ($driver){
+            new generalEventWithAppKey($this->order,$this->order->appKey,[$driver->user_id],'AutoCancelDriver',__("api.order has been cancelled automatic "));
+            $driver->update(["status"=>orderStatus::cancel]);
         }
 
         $WattingDriverList =OrderSentToDriver::where('order_id',$this->order->id)
@@ -60,13 +56,7 @@ class AutoNextDriverJob implements ShouldQueue
                 'cancel_reason'=>"no Driver Accept"
             ]);
         }else{
-            $count = count($WattingDriverList);
-            $max = min($count, 3);
-            for ($x = 0; $x <= $max; $x++) {
-                \Illuminate\Support\Facades\Storage::put('AutoNextDriverJob_generalEventWithAppKey.json', json_encode([''=>'generalEventWithAppKey']));
-//                Log::info('AutoNextDriverJob new generalEventWithAppKey '.$x);
-                new generalEventWithAppKey($this->order,$this->order->appKey,[$WattingDriverList[$x]],'newOrder',__("api.you have new order"));
-            }
+            new generalEventWithAppKey($this->order,$this->order->appKey,[$WattingDriverList[0]],'newOrder',__("api.you have new order"));
         }
 
         sendSerialCycle::sendNext($this->order);
